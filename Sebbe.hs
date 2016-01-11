@@ -24,7 +24,10 @@ occursIn :: Eq a => a -> [a] -> Bool
 occursIn x xs = x `elem` xs
 
 allOccursIn :: Eq a => [a] -> [a] -> Bool
-allOccursIn xs ys = and (map (\x -> x `elem` ys) xs)
+allOccursIn xs ys = and (map (`elem` ys) xs)
 
 sameElements :: Eq a => [a] -> [a] -> Bool
-sameElements xs ys = (allOccursIn xs ys) && (allOccursIn ys xs)
+sameElements xs ys = allOccursIn xs ys && allOccursIn ys xs
+
+numOccurrences :: Eq a => a -> [a] -> Int
+numOccurrences x xs = length (filter (\y -> y == x) xs)
