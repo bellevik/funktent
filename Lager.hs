@@ -1,3 +1,6 @@
+import Data.List
+
+
 -- Sumsq n returns 1*1 + 2*2 + ... + n*n
 
 sumsq :: Int -> Int
@@ -9,3 +12,9 @@ sumsq n = sumsq (abs (n)-1) + n*n
 fib :: Int -> Int 
 fib n | n `elem` [0, 1] = 1
       | otherwise       = fib (n-1) + fib (n-2)
+
+-- avoiding duplicates
+duplicates :: Eq a => [a] -> Bool
+duplicates []     = False
+duplicates (x:xs) | x `elem` xs = True
+                  | otherwise   = duplicates xs
