@@ -39,3 +39,8 @@ sameElements xs ys = allOccursIn xs ys && allOccursIn ys xs
 
 numOccurrences :: Eq a => a -> [a] -> Int
 numOccurrences x xs = (length . filter (==True) . map (\y -> y == x)) xs
+
+bag :: Eq a => [a] -> [(a, Int)]
+bag []     = []
+bag xs     = zip (listOfNonDup xs) (map (\x -> numOccurrences x xs) (listOfNonDup xs))
+    where listOfNonDup xs = removeDuplicates xs 
