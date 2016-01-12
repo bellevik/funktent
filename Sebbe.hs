@@ -34,5 +34,8 @@ numOccurrences x xs = length (filter (== x) xs)
 bag :: Eq a => [a] -> [(a, Int)]
 bag (x:xs) = undefined
 
+testRep :: IO Int -> IO ()
+testRep i = putStrLn i
+
 repeat :: IO Bool -> IO () -> IO ()
 repeat = undefined
