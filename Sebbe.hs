@@ -44,17 +44,40 @@ mirrortest = do
     putStrLn $ show ((toInt a1) + (toInt a2))
   where toInt a = (read a :: Int)
 
-readlinesInputb :: IO (Int)
+readlinesInputb :: IO Int
 readlinesInputb = do 
     n  <- readLn
     xs <- replicateM n readLn
     return $ sum xs
 
-sortInts :: IO ()
-sortInts = do
-    i <- readLn
-    let a = 5
-    if a == 0 then
-        print "hej"
-    else
-        print "lol"
+readlinesInputB :: IO [Int]
+readlinesInputB = helpB []
+
+helpB :: [Int] -> IO [Int]
+helpB xs = do
+   x <- readLn
+   if (x == 0) then 
+    return $ (sort (x:xs))
+   else 
+    helpB (x:xs)
+
+-- Week 5
+
+data Expr = Lit Int
+          | Add Expr Expr
+          | Sub Expr Expr
+
+eval :: Expr -> Int
+eval (Lit n)     = n
+eval (Add e1 e2) = eval e1 + eval e2
+eval (Sub e1 e2) = eval e1 - eval e2
+
+showExpr :: Expr -> String
+showExpr (Lit n)     = show n
+showExpr (Add e1 e2) = "(" ++ showExpr e1 ++ "+" ++ showExpr e2 ++")"
+showExpr (Sub e1 e2) = "(" ++ showExpr e1 ++ "-" ++ showExpr e2 ++")"
+
+size :: Expr -> Int
+size (Lit n)     = 0
+size (Add e1 e2) = 1 + size e1 + size e2
+size (Sub e1 e2) = 1 + size e1 + size e2
