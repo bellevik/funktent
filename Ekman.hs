@@ -1,4 +1,5 @@
 import Data.Char
+import Data.List
 
 sumsq :: Integer -> Integer
 sumsq counter = sumsq' counter 0
@@ -19,6 +20,14 @@ duplicates :: [Integer] -> Bool
 duplicates [] = False
 duplicates (x:xs) = x `elem` xs || duplicates xs
 
+removeDuplicates :: Eq a => [a] -> [a]
+removeDuplicates []     = []
+removeDuplicates xs     = help xs xs
+   where help []     news = news
+         help (x:xs) news | x `elem` xs = help xs (newArray x news)
+                          | otherwise   = help xs news
+         newArray x xs = delete x xs
+
 occursIn :: Eq a => a -> [a] -> Bool
 occursIn x xs = x `elem` xs
 
@@ -30,3 +39,7 @@ sameElements xs ys = allOccursIn xs ys && allOccursIn ys xs
 
 numOccurrences :: Eq a => a -> [a] -> Int
 numOccurrences x xs = length (filter (\y -> y == x) xs)
+
+bag :: String -> [(Char, Int)]
+bag str = zip (nonDup str) (map (\x -> numOccurrences x str) (nonDup str))
+            where nonDup string = removeDuplicates string
