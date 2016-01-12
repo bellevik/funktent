@@ -34,8 +34,17 @@ numOccurrences x xs = length (filter (== x) xs)
 bag :: Eq a => [a] -> [(a, Int)]
 bag (x:xs) = undefined
 
-testRep :: IO Int -> IO ()
-testRep i = print i
+mirrortest :: IO ()
+mirrortest = do 
+    a1 <- getLine
+    a2 <- getLine
+    putStrLn $ show ((toInt a1) + (toInt a2))
+  where toInt a = (read a :: Int)
 
-repeat :: IO Bool -> IO () -> IO ()
-repeat = undefined
+printSum :: IO ()
+printSum = do
+    n <- getLine
+    if n == "hej" then
+        putStrLn "hej"
+    else
+        putStrLn "no"
