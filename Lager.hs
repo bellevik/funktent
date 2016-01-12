@@ -45,18 +45,32 @@ bag []     = []
 bag xs     = zip (listOfNonDup xs) (map (\x -> numOccurrences x xs) (listOfNonDup xs))
     where listOfNonDup xs = removeDuplicates xs 
 
-readlinesInputa :: IO (Int)
-readlinesInputa = do 
+readlinesInput :: IO (Int)
+readlinesInput = do 
     a1 <- getLine
     return (toInt a1)
   where toInt a = (read a :: Int)
 
-readlinesInputb :: IO (Int)
-readlinesInputb = do 
+readlinesInputA :: IO (Int)
+readlinesInputA = do 
     n  <- readLn
     xs <- replicateM n readLn
     return $ sum xs
 
+readlinesInputB :: IO [Int]
+readlinesInputB = helpB []
+
+helpB :: [Int] -> IO[Int]
+helpB xs = do
+   x <- readLn
+   if (x == 0) then 
+    return $ (sort (x:xs))
+   else 
+    helpB (x:xs)
+
+bubblesort :: [Int] -> [Int]
+bubblesort (x:xs) = help [] xs x
+  where help tested (x:xs) y = 
 
 repeat :: IO Bool -> IO () -> IO ()
 repeat x y = undefined
