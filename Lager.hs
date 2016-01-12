@@ -1,5 +1,5 @@
 import Data.List
-
+import Control.Monad
 
 -- Sumsq n returns 1*1 + 2*2 + ... + n*n
 
@@ -45,12 +45,16 @@ bag []     = []
 bag xs     = zip (listOfNonDup xs) (map (\x -> numOccurrences x xs) (listOfNonDup xs))
     where listOfNonDup xs = removeDuplicates xs 
 
-mirrortest :: Num a => IO ()
-mirrortest = do 
+readlinesInputa :: IO (Int)
+readlinesInputa = do 
     a1 <- getLine
-    a2 <- getLine
-    putStrLn $ show ((toInt a1) + (toInt a2))
+    readlinesInputb (toInt a1)
   where toInt a = (read a :: Int)
+
+readlinesInputb :: Int -> IO (Int)
+readlinesInputb n = do 
+    xs <- replicateM n readLn
+    return $ sum xs
 
 
 repeat :: IO Bool -> IO () -> IO ()
