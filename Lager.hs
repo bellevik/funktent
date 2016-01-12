@@ -44,3 +44,14 @@ bag :: Eq a => [a] -> [(a, Int)]
 bag []     = []
 bag xs     = zip (listOfNonDup xs) (map (\x -> numOccurrences x xs) (listOfNonDup xs))
     where listOfNonDup xs = removeDuplicates xs 
+
+mirrortest :: Num a => IO ()
+mirrortest = do 
+    a1 <- getLine
+    a2 <- getLine
+    putStrLn $ show ((toInt a1) + (toInt a2))
+  where toInt a = (read a :: Int)
+
+
+repeat :: IO Bool -> IO () -> IO ()
+repeat x y = undefined
