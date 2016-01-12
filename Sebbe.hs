@@ -35,7 +35,7 @@ bag :: Eq a => [a] -> [(a, Int)]
 bag (x:xs) = undefined
 
 testRep :: IO Int -> IO ()
-testRep i = putStrLn i
+testRep i = print i
 
 repeat :: IO Bool -> IO () -> IO ()
 repeat = undefined
