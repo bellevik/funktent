@@ -48,11 +48,12 @@ bag xs     = zip (listOfNonDup xs) (map (\x -> numOccurrences x xs) (listOfNonDu
 readlinesInputa :: IO (Int)
 readlinesInputa = do 
     a1 <- getLine
-    readlinesInputb (toInt a1)
+    return (toInt a1)
   where toInt a = (read a :: Int)
 
-readlinesInputb :: Int -> IO (Int)
-readlinesInputb n = do 
+readlinesInputb :: IO (Int)
+readlinesInputb = do 
+    n  <- readLn
     xs <- replicateM n readLn
     return $ sum xs
 
