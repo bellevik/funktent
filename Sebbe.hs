@@ -1,3 +1,6 @@
+import Control.Monad
+import Data.List
+
 sumsq :: Int -> Int
 sumsq 1 = 1
 sumsq n = n * n + sumsq (n-1)
@@ -41,10 +44,17 @@ mirrortest = do
     putStrLn $ show ((toInt a1) + (toInt a2))
   where toInt a = (read a :: Int)
 
-printSum :: IO ()
-printSum = do
-    n <- getLine
-    if n == "hej" then
-        putStrLn "hej"
+readlinesInputb :: IO (Int)
+readlinesInputb = do 
+    n  <- readLn
+    xs <- replicateM n readLn
+    return $ sum xs
+
+sortInts :: IO ()
+sortInts = do
+    i <- readLn
+    let a = 5
+    if a == 0 then
+        print "hej"
     else
-        putStrLn "no"
+        print "lol"
