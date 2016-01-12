@@ -20,11 +20,13 @@ duplicates [] = False
 duplicates (x:xs) = x `elem` xs || duplicates xs
 
 occursIn :: Eq a => a -> [a] -> Bool
-occursIn val list = val `elem` list
+occursIn x xs = x `elem` xs
 
-allOccurIn :: Eq a => [a] -> [a] -> Bool
-allOccurIn [] _ = True
-allOccurIn (x:xs) list = occursIn x list && allOccurIn xs list
+allOccursIn :: Eq a => [a] -> [a] -> Bool
+allOccursIn xs ys = and (map (`elem` ys) xs)
 
 sameElements :: Eq a => [a] -> [a] -> Bool
-sameElements list1 list2 | length list1 == length list2 = 
+sameElements xs ys = allOccursIn xs ys && allOccursIn ys xs
+
+numOccurrences :: Eq a => a -> [a] -> Int
+numOccurrences x xs = length (filter (\y -> y == x) xs)
