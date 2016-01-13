@@ -1,3 +1,6 @@
+import Data.List
+import Data.Maybe
+
 myName :: IO ()
 myName = do
     putStrLn "Sebbe"
@@ -14,6 +17,11 @@ filter' f (x:xs) | f x       = x : filter' f xs
 
 -- iii
 
+test :: [(Int,Int)]
+test = [(1,2),(3,4),(5,6),(7,8),(3,4)]
+
+lookup' :: (Eq a) => a -> [(a,b)] -> Maybe b
+lookup' i is = listToMaybe $ map snd $ filter (\(a,b) -> a == i) is
 
 -- iv
 
