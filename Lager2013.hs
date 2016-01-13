@@ -1,4 +1,5 @@
 import Data.Maybe
+import Data.List
 
 myName :: IO ()
 myName = do
@@ -125,3 +126,57 @@ bchange value nbr bag | okcount >= 0 = Just $ newBag bag
           newBag (Node v cunt left right) | v == value = (Node v okcount left right)
                                           | value < v  = (Node v cunt (newBag left) right)
                                           | value > v  = (Node v cunt left (newBag right))
+
+
+-- 4 *******************************************************************************
+type Pegs = Int
+type NumDiscs = Int
+type Disc = Int
+data Hanoi = Hanoi Pegs NumDiscs [[Disc]]
+  deriving (Eq,Show)
+
+hanoitest1 :: Hanoi
+hanoitest1 = (Hanoi 3 5 [[1,2,3,4,5], [] ,[]])
+
+hanoitest2 :: Hanoi
+hanoitest2 = (Hanoi 3 5 [[3,4,5], [] ,[1,2]])
+
+hanoitest3 :: Hanoi
+hanoitest3 = (Hanoi 3 5 [[1,3,4,5], [] ,[1,2]])
+
+hanoitest4 :: Hanoi
+hanoitest4 = (Hanoi 3 5 [[3,5,4], [] ,[1,2]])
+
+-- 4a********************************************
+
+prop_wellFormedHanoi :: Hanoi -> Bool
+prop_wellFormedHanoi (Hanoi p d ps) = p == (length ps) && d == (nbrOfPegs ps) && (all (\a -> a == sort a) ps)
+    where nbrOfPegs []     = 0
+          nbrOfPegs (x:xs) = nbrOfPegs xs + length x
+
+-- 4b********************************************
+emptyHanoi :: Pegs -> NumDiscs -> Hanoi
+emptyHanoi p nbr = Hanoi p nbr $ replicate p []
+
+startHanoi :: Pegs -> NumDiscs -> Hanoi
+startHanoi p nbr = (Hanoi p nbr start)
+   where start = startPeg:startEmpty
+         startPeg = [1..nbr]
+         startEmpty = replicate (p-1) [] 
+
+
+-- 4b********************************************
+
+addDisc :: Disc -> Pegs -> Hanoi -> Hanoi 
+addDisc d p (Hanoi peg dis xs) | isOk = Hanoi peg dis newArr
+                               | otherwise = Hanoi peg dis xs
+   where isOk = p < peg && arrayPosOk (xs !! p)
+         arrayPosOk [] = True
+         arrayPosOk as = as !! 0 > d  
+         newArr = (take p xs) ++ ((d:(xs !! p)):(drop (p+1) xs))
+
+removeDisc :: Pegs -> Hanoi -> Maybe (Disc, Hanoi)
+removeDisc p (Hanoi peg dis xs) | length (xs!!p) > 0 = Just (p, newHanoi)
+                                | otherwise = Nothing
+   where newHanoi = Hanoi peg dis (array xs)
+         array as = take p as ++ ((drop 1 (as!!p)):(drop (p+1) as ) )
