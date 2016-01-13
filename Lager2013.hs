@@ -1,15 +1,16 @@
 myName :: IO ()
 myName = do
-	putStrLn "Lager"
+    putStrLn "Lager"
 
 -- 1ai.*****************************************************************************
 maxRainfall :: Int -> Float
 maxRainfall n = foldr (\x y -> max y $ rainfall x) 0 [1..n]
-   where maxRain x y = max y (rainfall x)
 
 
 rainfall :: Int -> Float
-rainfall f = fromIntegral(f) * 2.14 
+rainfall f = rain !! ((f-1) `mod` 22)
+
+rain = [ 3.0, 4.0, 123.0 , 2.0, 3.0, 5.0, 4.0, 56.0, 6.0, 4.0, 43.0, 32.0, 45.0, 65.0, 67.0, 8.0, 9.0, 189.0, 43.0, 45.0, 76.0, 200.0]
 
 -- 1aii.*****************************************
 maxRainfalla :: Int -> Float
@@ -89,6 +90,7 @@ emptyBag = EmptyBag
 
 bcount :: Ord a => a -> Bag a -> Int
 bcount a EmptyBag         = 0
-bcount a (Node x y x1 x2) |  x == a = y
-                          |  x > a  = bcount x1
-                          |  x < a  = bcount x2
+bcount a (Node x y left right) |  x == a = y
+                               |  x > a  = bcount a left
+                               |  x < a  = bcount a right
+
