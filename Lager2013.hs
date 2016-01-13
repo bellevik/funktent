@@ -1,3 +1,5 @@
+import Data.Maybe
+
 myName :: IO ()
 myName = do
     putStrLn "Lager"
@@ -83,9 +85,13 @@ test2c a = do
 -- 3 *******************************************************************************
 
 data Bag a = EmptyBag | Node a Int (Bag a) (Bag a)
+ deriving Show
 
 emptyBag :: Bag a
 emptyBag = EmptyBag
+
+bag :: Num a => Bag a
+bag = (Node 9 2 (Node 2 1 EmptyBag EmptyBag) (Node 10 1 EmptyBag EmptyBag))
 
 -- 3a********************************************
 -- När man vill göma implementationen av datatypen ( det gör att man inte exporterar konstruktorn)
@@ -105,5 +111,17 @@ bagToList (Node v count left right) = bagToList left ++ (replicate count v) ++ b
 
 -- 3d********************************************
 prop_Bag :: Ord a => Bag a -> Bool
-prop_Bag EmptyBag           = True
-prop_Bag (Node v count l r) = undefined
+prop_Bag EmptyBag                 = True
+prop_Bag (Node v cunt left right) = all (<v) (bagToList left) &&
+                                    all (>v) (bagToList right) &&
+                                    all prop_Bag [left,right] && cunt >= 0
+
+-- 3e********************************************
+bchange :: Ord a => a -> Int -> Bag a -> Maybe (Bag a)
+bchange value nbr bag | okcount >= 0 = Just $ newBag bag 
+                      | otherwise = Nothing
+    where okcount = bcount value bag + nbr
+          newBag EmptyBag                 = (Node value nbr EmptyBag EmptyBag)
+          newBag (Node v cunt left right) | v == value = (Node v okcount left right)
+                                          | value < v  = (Node v cunt (newBag left) right)
+                                          | value > v  = (Node v cunt left (newBag right))
