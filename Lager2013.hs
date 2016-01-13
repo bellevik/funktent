@@ -10,7 +10,7 @@ maxRainfall n = foldr (\x y -> max y $ rainfall x) 0 [1..n]
 rainfall :: Int -> Float
 rainfall f = rain !! ((f-1) `mod` 22)
 
-rain = [ 3.0, 4.0, 123.0 , 2.0, 3.0, 5.0, 4.0, 56.0, 6.0, 4.0, 43.0, 32.0, 45.0, 65.0, 67.0, 8.0, 9.0, 189.0, 43.0, 45.0, 76.0, 200.0]
+rain = [ 3.0, 4.0, 123.0 , 2.0, 3.0, 5.0, 4.0, 56.0, 6.0, 4.0, 43.0, 32.0, 189.0, 65.0, 67.0, 8.0, 9.0, 189.0, 43.0, 45.0, 76.0, 200.0]
 
 -- 1aii.*****************************************
 maxRainfalla :: Int -> Float
@@ -26,6 +26,10 @@ maxWeeks n = weeks n [] (maxRainfall n)
   where weeks 0 xs a = xs
         weeks n xs a | rainfall n == a = weeks (n-1) (n:xs) a
                      | otherwise       = weeks (n-1) xs     a
+
+
+maxWeekstry :: Int -> [Int]
+maxWeekstry n = [i | i <- [1..n], rainfall i == maximum [ rainfall l | l <- [1..n]]]
 
 
 -- 2a ******************************************************************************
@@ -94,3 +98,12 @@ bcount a (Node x y left right) |  x == a = y
                                |  x > a  = bcount a left
                                |  x < a  = bcount a right
 
+-- 3c********************************************
+bagToList :: Bag a -> [a]
+bagToList EmptyBag                  = []
+bagToList (Node v count left right) = bagToList left ++ (replicate count v) ++ bagToList right
+
+-- 3d********************************************
+prop_Bag :: Ord a => Bag a -> Bool
+prop_Bag EmptyBag           = True
+prop_Bag (Node v count l r) = undefined
