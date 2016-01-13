@@ -1,45 +1,15 @@
+import Data.List
+
 myName :: IO ()
 myName = do
-	putStrLn "Lager"
+    putStrLn "Lager"
 
--- ##### Question 1 ##### --
--- i
+-- 1 *******************************************************************************
+-- 1i *******************************************
+filter' :: Ord t => (t -> Bool) -> [t] -> [t]
+filter' f xs = helpFilter f xs []
+   where helpFilter f' [] new = new
+         helpFilter f' (y:ys) new | f' y      = helpFilter f' ys $ insert y new -- (new ++ [y])
+                                  | otherwise = helpFilter f' ys new
 
-
--- ii
-
-
--- iii
-
-
--- iv
-
-
--- v
-
-
--- ##### Question 2 ##### --
-
-
--- ##### Question 3 ##### --
--- i
-
-
--- ii
-
-
--- iii
-
-
--- ##### Question 4 ##### --
--- i
-
-
--- ii
-
-
--- iii
-
-
--- iv
-
+-- 1i *******************************************
